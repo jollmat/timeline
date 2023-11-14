@@ -50,7 +50,7 @@ export class TimelineComponent implements OnInit {
   currentCollection!: TimelineCollectionInterface;
   currentEditCollection?: TimelineCollectionInterface;
 
-  alignment: TimelineAlignEnum = TimelineAlignEnum.CENTER;
+  alignment: TimelineAlignEnum = TimelineAlignEnum.LEFT;
   alignmentStoreKey: string = 'APP_TIMELINE_ALIGNMENT';
 
   exporting: boolean = false;
@@ -484,8 +484,10 @@ export class TimelineComponent implements OnInit {
 
     // Alignment from storage
     const alignmentStored: string | null = localStorage.getItem(this.alignmentStoreKey);
-    if (alignmentStored) {
+    if (alignmentStored && !this.isMobile) {
       this.alignment = (alignmentStored === TimelineAlignEnum.CENTER) ? TimelineAlignEnum.CENTER : TimelineAlignEnum.LEFT;
+    } else {
+      this.alignment = TimelineAlignEnum.LEFT;
     }
 
     // Setup timeline item types
