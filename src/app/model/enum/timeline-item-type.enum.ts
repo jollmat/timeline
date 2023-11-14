@@ -1,8 +1,0 @@
-export enum TimelineItemTypeEnum {
-    VISITA_MEDICA = 'VISITA_MEDICA',
-    PROVA_MEDICA = 'PROVA_MEDICA',
-    INTERVENCIO_QUIRURGICA = 'INTERVENCIO_QUIRURGICA',
-    EVENT = 'EVENT',
-    NEWS = 'NEWS',
-    NOTE = 'NOTE'
-}
