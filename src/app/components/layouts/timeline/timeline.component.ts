@@ -193,7 +193,10 @@ export class TimelineComponent implements OnInit {
       }
       
     } else {
-      const dateItem: TimelineDateInterface | undefined = this.timeline.find((_dateItem) => _dateItem.date.getTime()===formItem.date?.getTime());
+      const dateItem: TimelineDateInterface | undefined = this.timeline.find((_dateItem) => {
+        return _dateItem.date.getTime()===formItem.date?.getTime() &&
+               _dateItem.collectionId===this.currentCollection.id;
+      });
       
       const newItem: TimelineItemInterface = {
         id: this.timelineService.getNewId(),
