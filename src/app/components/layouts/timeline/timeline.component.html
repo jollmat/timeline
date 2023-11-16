@@ -4,10 +4,10 @@
             [ngClass]="{'flex-column': isMobile, 'flex-column-reverse': isMobile}" 
             style="background-color: {{currentCollection.color || 'white'}};">
 
-            <ng-container *ngIf="timeline.length>0">
+            <ng-container *ngIf="getCollectionTimelineItems(currentCollection.id).length>0">
 
                 <form [formGroup]="searchForm">
-                    <div class="d-flex" [ngClass]="{'flex-column': isMobile}">
+                    <div class="d-flex align-items-center" [ngClass]="{'flex-column': false && isMobile}">
                     
                         <ng-select
                             [items]="timelineFormItemTypes"
@@ -22,94 +22,94 @@
                         <input type="text" 
                             (ngModelChange)="doSearch()" 
                             formControlName="text" 
-                            class="form-control" 
-                            [ngClass]="{'mt-2': isMobile, 'ms-2': !isMobile}" 
+                            class="form-control ms-2" 
+                            [ngClass]="{'w-50': isMobile}" 
                             placeholder="Cerca per text">
                     
                     </div>
                 </form>
 
-                <div class="d-flex" [ngClass]="{'mb-3': isMobile}">
-                    <!-- Collection selector -->
-                    <form [formGroup]="collectionForm">
-                        <ng-select
-                            [items]="timelineFormCollections"
-                            (ngModelChange)="updateCollection()"
-                            [clearable]="false"
-                            formControlName="collectionId"
-                            name="collection"
-                            bindValue="value"
-                            bindLabel="text"
-                            placeholder="Selecciona una col·lecció">
-                            <ng-template ng-label-tmp let-item="item">
-                                {{item.text}} ({{getCollectionTimelineItems(item.value).length}})
-                            </ng-template>
-                            <ng-template ng-option-tmp let-item="item" let-index="index">
-                                {{item.text}} ({{getCollectionTimelineItems(item.value).length}})
-                            </ng-template>
-                        </ng-select>
-                    </form>
-                    <button class="btn btn-collection ms-1" (click)="editCollection(collectionModalTemplate)">
-                        <i class="fas fa-edit"></i>
-                    </button>
-                    <button class="btn btn-collection" (click)="newCollection(collectionModalTemplate)">
-                        <i class="fas fa-plus"></i>
-                    </button>
-                    <button class="btn btn-collection" (click)="removeCollection()" [disabled]="collections.length<=1">
-                        <i class="fas fa-trash"></i>
-                    </button>
-                    <!-- End Collection selector -->
-
-                    <!-- Dropdown options -->
-                    <div ngbDropdown class="d-inline-block ms-3">
-                        <button type="button" class="btn btn-sm header-dropdown btn-outline-secondary" id="dropdownBasic1" ngbDropdownToggle>
-                            <i class="fas fa-gear"></i>
-                        </button>
-                        <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
-                            <button ngbDropdownItem (click)="showNewDateItem(itemModal)">
-                                <i class="fas fa-plus me-2"></i>
-                                Crear item
-                            </button>
-                            <div class="dropdown-divider"></div>
-                            <button ngbDropdownItem (click)="expandAll(true)">
-                                <i class="fas fa-expand me-2"></i>
-                                Desplegar dates
-                            </button>
-                            <button ngbDropdownItem (click)="expandAll(false)">
-                                <i class="fas fa-expand me-2"></i>
-                                Desplegar tot
-                            </button>
-                            <button ngbDropdownItem (click)="collapseAll()">
-                                <i class="fas fa-compress me-2"></i>
-                                Col·lapsar tot
-                            </button>
-                        
-                            <ng-container *ngIf="!isMobile">
-                                <div class="dropdown-divider"></div>
-                                <button ngbDropdownItem (click)="setAlignment(TimelineAlignEnum.LEFT)">
-                                    <i class="fas fa-align-left me-2"></i>
-                                    Alinear a l'esquerra
-                                    <i class="fas fa-check ms-2" *ngIf="alignment===TimelineAlignEnum.LEFT"></i>
-                                </button>
-                                <button ngbDropdownItem (click)="setAlignment(TimelineAlignEnum.CENTER)">
-                                    <i class="fas fa-align-center me-2"></i>
-                                    Alinear al centre
-                                    <i class="fas fa-check ms-2" *ngIf="alignment===TimelineAlignEnum.CENTER"></i>
-                                </button>
-                            </ng-container>
-                            
-                            <div class="dropdown-divider"></div>
-                            <button ngbDropdownItem (click)="export()">
-                                <i class="fas fa-file-pdf me-2"></i>
-                                Exportar a PDF
-                            </button>
-                        </div>
-                    </div>
-                    <!-- End Dropdown options -->
-
-                </div>
-
             </ng-container>
+            
+            <div class="d-flex align-items-center" [ngClass]="{'mb-3': isMobile, 'ms-auto': !isMobile}">
+                <!-- Collection selector -->
+                <form [formGroup]="collectionForm">
+                    <ng-select
+                        [items]="timelineFormCollections"
+                        (ngModelChange)="updateCollection()"
+                        [clearable]="false"
+                        formControlName="collectionId"
+                        name="collection"
+                        bindValue="value"
+                        bindLabel="text"
+                        placeholder="Selecciona una col·lecció">
+                        <ng-template ng-label-tmp let-item="item">
+                            {{item.text}} ({{getCollectionTimelineItems(item.value).length}})
+                        </ng-template>
+                        <ng-template ng-option-tmp let-item="item" let-index="index">
+                            {{item.text}} ({{getCollectionTimelineItems(item.value).length}})
+                        </ng-template>
+                    </ng-select>
+                </form>
+                <button class="btn btn-collection ms-1" (click)="editCollection(collectionModalTemplate)">
+                    <i class="fas fa-edit"></i>
+                </button>
+                <button class="btn btn-collection" (click)="newCollection(collectionModalTemplate)">
+                    <i class="fas fa-plus"></i>
+                </button>
+                <button class="btn btn-collection" (click)="removeCollection()" [disabled]="collections.length<=1">
+                    <i class="fas fa-trash"></i>
+                </button>
+                <!-- End Collection selector -->
+
+                <!-- Dropdown options -->
+                <div ngbDropdown class="d-inline-block" [ngClass]="{'ms-auto': isMobile, 'ms-2':!isMobile}">
+                    <button type="button" class="btn btn-sm header-dropdown btn-outline-secondary" id="dropdownBasic1" ngbDropdownToggle>
+                        <i class="fas fa-gear"></i>
+                    </button>
+                    <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+                        <button ngbDropdownItem (click)="showNewDateItem(itemModal)">
+                            <i class="fas fa-plus me-2"></i>
+                            Crear item
+                        </button>
+                        <div class="dropdown-divider"></div>
+                        <button ngbDropdownItem (click)="expandAll(true)">
+                            <i class="fas fa-expand me-2"></i>
+                            Desplegar dates
+                        </button>
+                        <button ngbDropdownItem (click)="expandAll(false)">
+                            <i class="fas fa-expand me-2"></i>
+                            Desplegar tot
+                        </button>
+                        <button ngbDropdownItem (click)="collapseAll()">
+                            <i class="fas fa-compress me-2"></i>
+                            Col·lapsar tot
+                        </button>
+                    
+                        <ng-container *ngIf="!isMobile">
+                            <div class="dropdown-divider"></div>
+                            <button ngbDropdownItem (click)="setAlignment(TimelineAlignEnum.LEFT)">
+                                <i class="fas fa-align-left me-2"></i>
+                                Alinear a l'esquerra
+                                <i class="fas fa-check ms-2" *ngIf="alignment===TimelineAlignEnum.LEFT"></i>
+                            </button>
+                            <button ngbDropdownItem (click)="setAlignment(TimelineAlignEnum.CENTER)">
+                                <i class="fas fa-align-center me-2"></i>
+                                Alinear al centre
+                                <i class="fas fa-check ms-2" *ngIf="alignment===TimelineAlignEnum.CENTER"></i>
+                            </button>
+                        </ng-container>
+                        
+                        <div class="dropdown-divider"></div>
+                        <button ngbDropdownItem (click)="export()">
+                            <i class="fas fa-file-pdf me-2"></i>
+                            Exportar a PDF
+                        </button>
+                    </div>
+                </div>
+                <!-- End Dropdown options -->
+
+            </div>
             
         </div>
 
@@ -260,7 +260,11 @@
                     'ps-4':alignment===TimelineAlignEnum.LEFT,
                     'fadeIn_1s': !exporting
                 }">
-                <small [ngClass]="{'pe-3': alignment===TimelineAlignEnum.CENTER && dateIdx%2!==0}" [innerHTML]="timelineItem.text | highlighter:searchForm.get('text')?.value:''"></small>
+                <ng-container *ngIf="timelineItem?.hour?.length>0">
+                    <small class="ms-2" [innerHTML]="timelineItem.hour + 'h.'"></small>
+                    <small class="ms-2">-</small>
+                </ng-container>
+                <small class="mx-2" [ngClass]="{'pe-3': alignment===TimelineAlignEnum.CENTER && dateIdx%2!==0}" [innerHTML]="timelineItem.text | highlighter:searchForm.get('text')?.value:''"></small>
             </div>
         </ng-container>
     </div>
