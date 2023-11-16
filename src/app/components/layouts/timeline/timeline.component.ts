@@ -14,6 +14,7 @@ import { TimelineService } from 'src/app/services/timeline.service';
 import Swal from 'sweetalert2';
 import { DeviceDetectorService } from 'ngx-device-detector';
 import { TimelineCollectionInterface } from 'src/app/model/interface/timeline-collection.interface';
+import { TIMELINE_ITEM_TYPES } from 'src/app/model/constants/timeline-item-types.constant';
 
 declare var jsPDF: any;
 
@@ -495,10 +496,17 @@ export class TimelineComponent implements OnInit {
 
     // Setup timeline item types
     Object.keys(TimelineItemTypeEnum).forEach((_key) => {
+      const labelObj: {key: string, text: string} | undefined = TIMELINE_ITEM_TYPES.find((_type) => {
+        return _type.key===_key;
+      });
       this.timelineFormItemTypes.push({
         value: _key,
-        text: _key
+        text: labelObj ? labelObj.text : _key
       });
+    });
+
+    this.timelineFormItemTypes.sort((a, b) => {
+      return a.text<b.text ? -1 : 1;
     });
 
     // Timeline collections subscription
