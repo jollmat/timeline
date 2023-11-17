@@ -266,10 +266,32 @@
                 </ng-container>
                 <small class="mx-2" [ngClass]="{'pe-3': alignment===TimelineAlignEnum.CENTER && dateIdx%2!==0}" [innerHTML]="timelineItem.text | highlighter:searchForm.get('text')?.value:''"></small>
             </div>
+            <ng-container *ngIf="timelineItem.links?.length>0" 
+                [ngTemplateOutlet]="itemLinks"
+                [ngTemplateOutletContext]="{links: timelineItem.links}">
+            </ng-container>
         </ng-container>
     </div>
 </ng-template>
 <!-- End Timeline item template -->
+
+<!-- Timeline item links template -->
+<ng-template let-links="links" #itemLinks>
+    <div class="d-flex w-100">
+        <ul class="links ms-3 p-0">
+            <ng-container *ngFor="let link of links.split(',')">
+                <li class="ps-3">
+                    <small class="link">
+                        <i class="fas fa-link me-2" title="Link"></i>
+                        <a class="link" href="{{link}}" target="_blank" [innerHTML]="link | highlighter:searchForm.get('text')?.value:''">
+                        </a>
+                    </small>
+                </li>
+            </ng-container>
+        </ul>
+    </div>
+</ng-template>
+<!-- End Timeline item links template -->
 
 <!-- Item type template -->
 <ng-template let-type="type" let-date="date" let-id="id" #itemType>

@@ -86,6 +86,10 @@ button {
     }
 }
 
+ul.links {
+    list-style-type: none;
+}
+
 ::ng-deep {
     .ng-select.ng-select-single .ng-select-container {
         min-width: 200px;

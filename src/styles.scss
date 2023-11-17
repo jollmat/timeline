@@ -29,3 +29,12 @@ body {
 .highlight {
     background-color: gold;
 }
+
+.link, a {
+    color: blue;
+    cursor: pointer;
+    text-decoration: none;
+     &:hover {
+        text-decoration: underline;
+     }
+}

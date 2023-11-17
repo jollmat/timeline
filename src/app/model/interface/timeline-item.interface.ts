@@ -7,6 +7,6 @@ export interface TimelineItemInterface {
     title: string;
     text: string;
     type: TimelineItemTypeEnum;
-    links?: string[];
+    links?: string;
     iconClass?: string;
 }

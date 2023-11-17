@@ -121,7 +121,7 @@ export class TimelineComponent implements OnInit {
     this.itemForm.patchValue({'title': timelineItem.title});
     this.itemForm.patchValue({'text': timelineItem.text});
     this.itemForm.patchValue({'type': timelineItem.type});
-    this.itemForm.patchValue({'links': timelineItem.links ? timelineItem.links.join(',') : ''});
+    this.itemForm.patchValue({'links': timelineItem.links});
     this.itemForm.patchValue({'iconClass': timelineItem.iconClass || ''});
     this.modalService.open(template, {
       centered: true
